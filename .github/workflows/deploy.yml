@@ -15,4 +15,4 @@ jobs:
       - name: Run docker compose
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          compose-file: /whats-up-docker/docker-compose.yml"
+          compose-file: whats-up-docker/docker-compose.yml"
