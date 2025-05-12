@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
-        with:
-          path: /home/test/
 
       - name: Run docker compose
         uses: hoverkraft-tech/compose-action@v2.0.1
