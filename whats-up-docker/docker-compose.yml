@@ -11,3 +11,4 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wud.rule=Host(`wud.kdr.lan`)"
+      - "tere=tere"
