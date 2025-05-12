@@ -6,13 +6,16 @@ on:
       - main
 
 jobs:
-  build:
+  docker-up:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
-      - name: Run docker compose
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: whats-up-docker/docker-compose.yml"
+      - name: Run docker-compose up
+        run: docker compose -f whats-up-docker/docker-compose.yml up -d
+
+      # - name: Run docker compose
+      #   uses: hoverkraft-tech/compose-action@v2.0.1
+      #   with:
+      #     compose-file: whats-up-docker/docker-compose.yml"
