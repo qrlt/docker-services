@@ -4,6 +4,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 3002:3001
+      - 3002:3009
     restart: unless-stopped
     # t

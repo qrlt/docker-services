@@ -6,7 +6,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 3000:3000
+      - 3000:3009
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
