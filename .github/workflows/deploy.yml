@@ -34,13 +34,13 @@ jobs:
         if: contains(steps.changes.outputs.changed_dirs, 'whats-up-docker')
         run: |
           cd whats-up-docker
-          docker-compose up -d
+          docker compose up -d
 
       - name: Deploy Service B
         if: contains(steps.changes.outputs.changed_dirs, 'uptime-kuma')
         run: |
           cd uptime-kuma
-          docker-compose up -d
+          docker compose up -d
 
 # jobs:
 #   docker-up:
