@@ -1,21 +1,54 @@
 name: Deploy
 
+# on:
+#   push:
+#     branches:
+#       - main
+
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'whats-up-docker/**'
+      - 'uptime-kuma/**'
 
 jobs:
-  docker-up:
-    runs-on: self-hosted
+  deploy:
+    runs-on: kdr-hs
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run docker-compose up
-        run: docker compose -f whats-up-docker/docker-compose.yml up -d
+      - name: Detect Changed Services
+        id: changes
+        run: |
+          echo "changed_dirs=" >> $GITHUB_OUTPUT
+          if git diff --name-only ${{ github.sha }} ${{ github.event.before }} | grep ^whats-up-docker/; then
+            echo "changed_dirs=whats-up-docker" >> $GITHUB_OUTPUT
+          fi
+          if git diff --name-only ${{ github.sha }} ${{ github.event.before }} | grep ^uptime-kuma/; then
+            echo "changed_dirs=${{ steps.changes.outputs.changed_dirs }} uptime-kuma" >> $GITHUB_OUTPUT
+          fi
 
-      # - name: Run docker compose
-      #   uses: hoverkraft-tech/compose-action@v2.0.1
-      #   with:
-      #     compose-file: whats-up-docker/docker-compose.yml"
+      - name: Deploy Service A
+        if: contains(steps.changes.outputs.changed_dirs, 'whats-up-docker')
+        run: |
+          cd whats-up-docker
+          docker-compose up -d
+
+      - name: Deploy Service B
+        if: contains(steps.changes.outputs.changed_dirs, 'uptime-kuma')
+        run: |
+          cd uptime-kuma
+          docker-compose up -d
+
+# jobs:
+#   docker-up:
+#     runs-on: self-hosted
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Run docker-compose up
+#         run: docker compose -f whats-up-docker/docker-compose.yml up -d
+
